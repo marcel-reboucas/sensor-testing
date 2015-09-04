@@ -29,6 +29,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // Location
     var locationManager : CLLocationManager = CLLocationManager()
     
+    // Weather
+    var weatherApi : OWMWeatherAPI = OWMWeatherAPI(APIKey: "f34aa439ebd10e124c1d7b663022431b")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,6 +45,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
      
+        // Weather
+        weatherApi.setTemperatureFormat(kOWMTempCelcius)
 
  
     }
@@ -95,6 +100,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         sensorDataArray += getLocationData()
         sensorDataArray += getAccelerometerData()
         sensorDataArray += getGyroData()
+       
+        getTemperatureData()
         
         tableView.reloadData()
         
@@ -136,6 +143,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             accelerometerData += [("Accelerometer X", "\(data.acceleration.x)")]
             accelerometerData += [("Accelerometer Y", "\(data.acceleration.y)")]
             accelerometerData += [("Accelerometer Z", "\(data.acceleration.z)")]
+        } else {
+            accelerometerData += [("Accelerometer X", "Not available")]
+            accelerometerData += [("Accelerometer Y", "Not available")]
+            accelerometerData += [("Accelerometer Z", "Not available")]
         }
         
         
@@ -153,10 +164,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             gyroData += [("Gyro X", "\(data.rotationRate.x)")]
             gyroData += [("Gyro Y", "\(data.rotationRate.y)")]
             gyroData += [("Gyro Z", "\(data.rotationRate.z)")]
+        } else {
+            gyroData += [("Gyro X", "Not available")]
+            gyroData += [("Gyro Y", "Not available")]
+            gyroData += [("Gyro Z", "Not available")]
         }
         
         
         return gyroData
+    }
+    
+    func getTemperatureData()
+    {
+        var temperatureData = [(String, String)]()
+        
+        if   (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways)
+        {
+            weatherApi.currentWeatherByCoordinate(locationManager.location.coordinate, withCallback: { (error, result) -> Void in
+               
+                var weatherData : WeatherInfo = WeatherInfo(data: result)
+                
+                self.sensorDataArray += [("Current Temperature", "\(weatherData.temperatureCurrent)")]
+                self.sensorDataArray += [("Max Temperature", "\(weatherData.temperatureMax)")]
+                self.sensorDataArray += [("Min Temperature", "\(weatherData.temperatureMin)")]
+                self.sensorDataArray += [("Weather", "\(weatherData.weather)")]
+                self.sensorDataArray += [("Pressure", "\(weatherData.pressure)")]
+                self.sensorDataArray += [("Humidity", "\(weatherData.humidity)")]
+                self.sensorDataArray += [("Wind speed", "\(weatherData.windSpeed)")]
+                self.sensorDataArray += [("Wind degree", "\(weatherData.windDegree)")]
+                self.sensorDataArray += [("City", "\(weatherData.cityName)")]
+                self.sensorDataArray += [("Country", "\(weatherData.country)")]
+                self.sensorDataArray += [("Sea Level", "\(weatherData.seaLevel)")]
+                
+                self.tableView.reloadData()
+            })
+        }
     }
 }
 
