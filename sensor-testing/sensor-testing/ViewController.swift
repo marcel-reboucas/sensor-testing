@@ -6,29 +6,41 @@
 //  Copyright (c) 2015 mscr. All rights reserved.
 //
 
+/*---------------------------------- vejam isso depois
+//https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CMAttitude_Class/index.html#//apple_ref/occ/instp/CMAttitude/roll
+
+
+https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CMDeviceMotion_Class/index.html#//apple_ref/occ/instp/CMDeviceMotion/magneticField
+----------------------------------*/
+
 import UIKit
+import CoreMotion
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     var sensorDataArray = [(String, String)]()
+    
+    var motion:CMMotionManager = CMMotionManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        motion.startAccelerometerUpdates()
+        motion.startGyroUpdates()
+        
         tableView.dataSource = self
         tableView.delegate = self
         
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         updateSensorDataArray()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
     @IBAction func atualizarAction(sender: AnyObject) {
         self.updateSensorDataArray()
     }
@@ -55,19 +67,60 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         sensorDataArray += getLocationData()
         sensorDataArray += getAccelerometerData()
+        sensorDataArray += getGyroData()
         
         tableView.reloadData()
         
     }
     
-    func getLocationData() -> [(String, String)] {
+    func getGyroData() -> [(String, String)]
+    {//eu vou abrir a cahve em baixo e que se dane o mundo, vems
+        var ret = [("", ""),("", ""),("", "")]
+        
+        if(motion.gyroData != nil)
+        {
+            var data = motion.gyroData
+            
+            ret[0].0 = "gyro x"
+            ret[0].1 = "\(data.rotationRate.x)"
+           
+            ret[1].0 = "gyro y"
+            ret[1].1 = "\(data.rotationRate.y)"
+            
+            ret[2].0 = "gyro z"
+            ret[2].1 = "\(data.rotationRate.z)"
+            
+        }
+        
+        
+        return ret
+    }
     
+    func getLocationData() -> [(String, String)] {
+        
         return [("location1", "data1"), ("location2", "data2")]
     }
     
     func getAccelerometerData() -> [(String, String)] {
         
-        return [("accelometer1", "data1")]
+        var ret = [("", ""),("", ""),("", "")]
+        
+        if(motion.accelerometerData != nil)
+        {
+            var data = motion.accelerometerData
+            
+            ret[0].0 = "accelerometer x"
+            ret[0].1 = "\(data.acceleration.x)"
+            
+            ret[1].0 = "accelerometer y"
+            ret[1].1 = "\(data.acceleration.y)"
+            
+            ret[2].0 = "accelerometer z"
+            ret[2].1 = "\(data.acceleration.z)"
+        }
+        
+        
+        return ret
     }
 }
 
