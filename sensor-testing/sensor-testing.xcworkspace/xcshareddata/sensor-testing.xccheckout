@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6B9F885B-8DE8-473D-8507-A3DFFA767793</string>
+	<key>IDESourceControlProjectName</key>
+	<string>sensor-testing</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DAD216CA62D28ACF7C60B19AE8B6DA805EC8EEFD</key>
+		<string>https://github.com/marcel-reboucas/sensor-testing.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>sensor-testing/sensor-testing.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DAD216CA62D28ACF7C60B19AE8B6DA805EC8EEFD</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/marcel-reboucas/sensor-testing.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DAD216CA62D28ACF7C60B19AE8B6DA805EC8EEFD</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DAD216CA62D28ACF7C60B19AE8B6DA805EC8EEFD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sensor-testing</string>
+		</dict>
+	</array>
+</dict>
+</plist>
