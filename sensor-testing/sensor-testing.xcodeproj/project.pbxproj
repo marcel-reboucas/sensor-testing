@@ -14,7 +14,6 @@
 		1F5F86CA1B98D5D00091A204 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F5F86C91B98D5D00091A204 /* Images.xcassets */; };
 		1F5F86CD1B98D5D00091A204 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5F86CB1B98D5D00091A204 /* LaunchScreen.xib */; };
 		1F5F86D91B98D5D00091A204 /* sensor_testingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F86D81B98D5D00091A204 /* sensor_testingTests.swift */; };
-		1F5F86E31B99D9730091A204 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5F86E21B99D9730091A204 /* CoreLocation.framework */; };
 		1FA1359D1B99EF250066E747 /* WeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA1359C1B99EF250066E747 /* WeatherInfo.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +51,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F5F86E31B99D9730091A204 /* CoreLocation.framework in Frameworks */,
 				0144C85B0F3E3CBF8AEDD118 /* libPods-sensor-testing.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

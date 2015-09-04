@@ -34,7 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Weather
     var weatherApi : OWMWeatherAPI = OWMWeatherAPI(APIKey: "f34aa439ebd10e124c1d7b663022431b")
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +60,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         motionManager.startAccelerometerUpdates()
         motionManager.startGyroUpdates()
         
+        // Magnetometer
+        motionManager.startMagnetometerUpdates()
+        
         // Location
         locationManager.startUpdatingLocation()
         
@@ -71,6 +74,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Accelerometer and Gyro
         motionManager.stopAccelerometerUpdates()
         motionManager.stopGyroUpdates()
+        
+        // Magnetometer
+        motionManager.stopMagnetometerUpdates()
         
         // Location
         locationManager.stopUpdatingLocation()
@@ -103,6 +109,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         sensorDataArray += getLocationData()
         sensorDataArray += getAccelerometerData()
         sensorDataArray += getGyroData()
+        sensorDataArray += getMagnetometerData()
        
         getTemperatureData()
         
@@ -110,6 +117,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    func getMagnetometerData() -> [(String, String)]{
+        var magnetometerData = [(String , String)]()
+        
+        if(motionManager.magnetometerData != nil)
+        {
+            var data = motionManager.magnetometerData
+            
+            magnetometerData += [("MagnetctField x" , "\(data.magneticField.x)")]
+            magnetometerData += [("MagnetctField y" , "\(data.magneticField.y)")]
+            magnetometerData += [("MagnetctField z" , "\(data.magneticField.z)")]
+        } else {
+            magnetometerData += [("MagnetctField x" , "Not authorized")]
+            magnetometerData += [("MagnetctField y" , "Not authorized")]
+        }
+        
+        return magnetometerData
+    }
 
     
     func getLocationData() -> [(String, String)] {
