@@ -13,6 +13,7 @@
 		1F5F86CA1B98D5D00091A204 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F5F86C91B98D5D00091A204 /* Images.xcassets */; };
 		1F5F86CD1B98D5D00091A204 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5F86CB1B98D5D00091A204 /* LaunchScreen.xib */; };
 		1F5F86D91B98D5D00091A204 /* sensor_testingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F86D81B98D5D00091A204 /* sensor_testingTests.swift */; };
+		1F5F86E31B99D9730091A204 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5F86E21B99D9730091A204 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		1F5F86D21B98D5D00091A204 /* sensor-testingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sensor-testingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F5F86D71B98D5D00091A204 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F5F86D81B98D5D00091A204 /* sensor_testingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sensor_testingTests.swift; sourceTree = "<group>"; };
+		1F5F86E21B99D9730091A204 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F5F86E31B99D9730091A204 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +62,7 @@
 		1F5F86B41B98D5D00091A204 = {
 			isa = PBXGroup;
 			children = (
+				1F5F86E21B99D9730091A204 /* CoreLocation.framework */,
 				1F5F86BF1B98D5D00091A204 /* sensor-testing */,
 				1F5F86D51B98D5D00091A204 /* sensor-testingTests */,
 				1F5F86BE1B98D5D00091A204 /* Products */,
@@ -161,7 +165,6 @@
 				TargetAttributes = {
 					1F5F86BC1B98D5D00091A204 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = J273RJ8N9K;
 					};
 					1F5F86D11B98D5D00091A204 = {
 						CreatedOnToolsVersion = 6.4;
@@ -342,10 +345,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "sensor-testing/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -354,10 +359,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "sensor-testing/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

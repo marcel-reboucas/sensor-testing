@@ -15,34 +15,61 @@ https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CMDev
 
 import UIKit
 import CoreMotion
+import CoreLocation
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
     var sensorDataArray = [(String, String)]()
     
-    var motion:CMMotionManager = CMMotionManager()
+    // Accelerometer and Gyro
+    var motionManager : CMMotionManager = CMMotionManager()
+
+    // Location
+    var locationManager : CLLocationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        motion.startAccelerometerUpdates()
-        motion.startGyroUpdates()
         
+        // Tableview
         tableView.dataSource = self
         tableView.delegate = self
         
-        
+        // Location
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+     
+
+ 
     }
     
     override func viewWillAppear(animated: Bool) {
+        
+        // Accelerometer and Gyro
+        motionManager.startAccelerometerUpdates()
+        motionManager.startGyroUpdates()
+        
+        // Location
+        locationManager.startUpdatingLocation()
+        
+        
         updateSensorDataArray()
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        // Accelerometer and Gyro
+        motionManager.stopAccelerometerUpdates()
+        motionManager.stopGyroUpdates()
+        
+        // Location
+        locationManager.stopUpdatingLocation()
+    }
+    
     @IBAction func atualizarAction(sender: AnyObject) {
-        self.updateSensorDataArray()
+        updateSensorDataArray()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -73,54 +100,63 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func getGyroData() -> [(String, String)]
-    {//eu vou abrir a cahve em baixo e que se dane o mundo, vems
-        var ret = [("", ""),("", ""),("", "")]
-        
-        if(motion.gyroData != nil)
-        {
-            var data = motion.gyroData
-            
-            ret[0].0 = "gyro x"
-            ret[0].1 = "\(data.rotationRate.x)"
-           
-            ret[1].0 = "gyro y"
-            ret[1].1 = "\(data.rotationRate.y)"
-            
-            ret[2].0 = "gyro z"
-            ret[2].1 = "\(data.rotationRate.z)"
-            
-        }
-        
-        
-        return ret
-    }
+
     
     func getLocationData() -> [(String, String)] {
         
-        return [("location1", "data1"), ("location2", "data2")]
+        var locationData = [(String, String)]()
+        
+        // Check if the user allowed authorization
+        if   (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways)
+        {
+         
+            if let location = locationManager.location {
+                locationData += [("Latitude", "\(location.coordinate.latitude)")]
+                locationData += [("Longitude","\(location.coordinate.longitude)")]
+            }
+           
+            
+        }  else {
+            locationData += [("Latitude","Not authorized")]
+            locationData += [("Longitude","Not authorized")]
+        }
+        
+        return locationData
     }
     
     func getAccelerometerData() -> [(String, String)] {
         
-        var ret = [("", ""),("", ""),("", "")]
+        var accelerometerData = [(String, String)]()
         
-        if(motion.accelerometerData != nil)
+        if(motionManager.accelerometerData != nil)
         {
-            var data = motion.accelerometerData
+            var data = motionManager.accelerometerData
             
-            ret[0].0 = "accelerometer x"
-            ret[0].1 = "\(data.acceleration.x)"
-            
-            ret[1].0 = "accelerometer y"
-            ret[1].1 = "\(data.acceleration.y)"
-            
-            ret[2].0 = "accelerometer z"
-            ret[2].1 = "\(data.acceleration.z)"
+            accelerometerData += [("Accelerometer X", "\(data.acceleration.x)")]
+            accelerometerData += [("Accelerometer Y", "\(data.acceleration.y)")]
+            accelerometerData += [("Accelerometer Z", "\(data.acceleration.z)")]
         }
         
         
-        return ret
+        return accelerometerData
+    }
+    
+    func getGyroData() -> [(String, String)]
+    {
+        var gyroData = [(String, String)]()
+        
+        if(motionManager.gyroData != nil)
+        {
+            var data = motionManager.gyroData
+            
+            gyroData += [("Gyro X", "\(data.rotationRate.x)")]
+            gyroData += [("Gyro Y", "\(data.rotationRate.y)")]
+            gyroData += [("Gyro Z", "\(data.rotationRate.z)")]
+        }
+        
+        
+        return gyroData
     }
 }
 
