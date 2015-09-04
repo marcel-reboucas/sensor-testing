@@ -27,14 +27,12 @@ public class WeatherInfo {
         cityName = data["name"] as! String
         
         var sys = data["sys"] as! NSDictionary
-        
         country = sys.valueForKey("country") as! String
     
         var wea = (data["weather"] as! NSArray).objectAtIndex(0) as! NSDictionary
         weather = wea["main"] as! String
         
         var main = data["main"] as! NSDictionary
-        
         temperatureCurrent = main["temp"] as! Double
         temperatureMin = main["temp_min"] as! Double
         temperatureMax = main["temp_max"] as! Double

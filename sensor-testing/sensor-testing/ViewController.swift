@@ -11,6 +11,9 @@
 
 
 https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CMDeviceMotion_Class/index.html#//apple_ref/occ/instp/CMDeviceMotion/magneticField
+
+
+https://github.com/adba/OpenWeatherMapAPI
 ----------------------------------*/
 
 import UIKit
@@ -181,24 +184,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if   (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
             CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways)
         {
-            weatherApi.currentWeatherByCoordinate(locationManager.location.coordinate, withCallback: { (error, result) -> Void in
+            if (locationManager.location != nil) {
+                
+                weatherApi.currentWeatherByCoordinate(locationManager.location.coordinate, withCallback: { (error, result) -> Void in
                
-                var weatherData : WeatherInfo = WeatherInfo(data: result)
+                    if result != nil {
+                    var weatherData : WeatherInfo = WeatherInfo(data: result)
                 
-                self.sensorDataArray += [("Current Temperature", "\(weatherData.temperatureCurrent)")]
-                self.sensorDataArray += [("Max Temperature", "\(weatherData.temperatureMax)")]
-                self.sensorDataArray += [("Min Temperature", "\(weatherData.temperatureMin)")]
-                self.sensorDataArray += [("Weather", "\(weatherData.weather)")]
-                self.sensorDataArray += [("Pressure", "\(weatherData.pressure)")]
-                self.sensorDataArray += [("Humidity", "\(weatherData.humidity)")]
-                self.sensorDataArray += [("Wind speed", "\(weatherData.windSpeed)")]
-                self.sensorDataArray += [("Wind degree", "\(weatherData.windDegree)")]
-                self.sensorDataArray += [("City", "\(weatherData.cityName)")]
-                self.sensorDataArray += [("Country", "\(weatherData.country)")]
-                self.sensorDataArray += [("Sea Level", "\(weatherData.seaLevel)")]
+                    self.sensorDataArray += [("Current Temperature", "\(weatherData.temperatureCurrent)")]
+                    self.sensorDataArray += [("Max Temperature", "\(weatherData.temperatureMax)")]
+                    self.sensorDataArray += [("Min Temperature", "\(weatherData.temperatureMin)")]
+                    self.sensorDataArray += [("Weather", "\(weatherData.weather)")]
+                    self.sensorDataArray += [("Pressure", "\(weatherData.pressure)")]
+                    self.sensorDataArray += [("Humidity", "\(weatherData.humidity)")]
+                    self.sensorDataArray += [("Wind speed", "\(weatherData.windSpeed)")]
+                    self.sensorDataArray += [("Wind degree", "\(weatherData.windDegree)")]
+                    self.sensorDataArray += [("City", "\(weatherData.cityName)")]
+                    self.sensorDataArray += [("Country", "\(weatherData.country)")]
+                    self.sensorDataArray += [("Sea Level", "\(weatherData.seaLevel)")]
                 
-                self.tableView.reloadData()
-            })
+                    self.tableView.reloadData()
+                    }
+                })
+            }
         }
     }
 }
