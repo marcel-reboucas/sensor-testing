@@ -10,13 +10,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "sensor-testing/WeatherInfo.swift"
-            timestampString = "463083560.950242"
+            timestampString = "463084750.744461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "init(data:)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "sensor-testing/ViewController.swift"
+            timestampString = "463089314.302332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "sensor_testing.ViewController.viewDidLoad (sensor_testing.ViewController)() -&gt; ()"
+                  moduleName = "sensor-testing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Marcel/Documents/Development/sensor-testing/sensor-testing/sensor-testing/ViewController.swift"
+                  timestampString = "463089515.491829"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "780">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "sensor_testing.ViewController.(viewDidLoad (sensor_testing.ViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "sensor-testing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Marcel/Documents/Development/sensor-testing/sensor-testing/sensor-testing/ViewController.swift"
+                  timestampString = "463089515.492035"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

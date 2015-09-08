@@ -19,6 +19,7 @@ https://github.com/adba/OpenWeatherMapAPI
 import UIKit
 import CoreMotion
 import CoreLocation
+import HealthKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
@@ -27,13 +28,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var sensorDataArray = [(String, String)]()
     
     // Accelerometer and Gyro
-    var motionManager : CMMotionManager = CMMotionManager()
+    let motionManager : CMMotionManager = CMMotionManager()
 
     // Location
-    var locationManager : CLLocationManager = CLLocationManager()
+    let locationManager : CLLocationManager = CLLocationManager()
     
     // Weather
-    var weatherApi : OWMWeatherAPI = OWMWeatherAPI(APIKey: "f34aa439ebd10e124c1d7b663022431b")
+    let weatherApi : OWMWeatherAPI = OWMWeatherAPI(APIKey: "f34aa439ebd10e124c1d7b663022431b")
+    
+    // Device
+    let device  = UIDevice.currentDevice()
+    
+    // Healthkit
+    let healthKitStore:HKHealthStore = HKHealthStore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +58,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Weather
         weatherApi.setTemperatureFormat(kOWMTempCelcius)
 
- 
+        // Proximity
+        //device.proximityMonitoringEnabled = true
+        
+        // HealthKit
+        self.authorizeHealthKit { (authorized,  error) -> Void in
+            if authorized {
+                println("HealthKit authorization received.")
+            }
+            else
+            {
+                println("HealthKit authorization denied!")
+                if error != nil {
+                    println("\(error)")
+                }
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -103,8 +125,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         sensorDataArray += getLocationData()
         sensorDataArray += getAccelerometerData()
         sensorDataArray += getGyroData()
-       
+        sensorDataArray += getProximity()
         getTemperatureData()
+        getStepCounter()
+        
         
         tableView.reloadData()
         
@@ -201,12 +225,91 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.sensorDataArray += [("Wind degree", "\(weatherData.windDegree)")]
                     self.sensorDataArray += [("City", "\(weatherData.cityName)")]
                     self.sensorDataArray += [("Country", "\(weatherData.country)")]
-                    self.sensorDataArray += [("Sea Level", "\(weatherData.seaLevel)")]
                 
                     self.tableView.reloadData()
                     }
                 })
             }
+        }
+    }
+    
+    func getAmbientlight(){
+    
+    }
+    
+    func getProximity()  -> [(String, String)] {
+        println(device.proximityState)
+        return [("Proximity State", "\(device.proximityState)")]
+    }
+    
+    func authorizeHealthKit(completion: ((success:Bool, error:NSError!) -> Void)!)
+    {
+        // 1. Set the types you want to read from HK Store
+        let healthKitTypesToRead = Set([
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
+            ])
+        
+        // 2. Set the types you want to write to HK Store
+        let healthKitTypesToWrite = Set([
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
+            ])
+        
+        // 3. If the store is not available (for instance, iPad) return an error and don't go on.
+        if !HKHealthStore.isHealthDataAvailable()
+        {
+            let error = NSError(domain: "br.ufpe.mscr", code: 2, userInfo: [NSLocalizedDescriptionKey:"HealthKit is not available in this Device"])
+            if( completion != nil )
+            {
+                completion(success:false, error:error)
+            }
+            return;
+        }
+        
+        // 4.  Request HealthKit authorization
+        healthKitStore.requestAuthorizationToShareTypes(healthKitTypesToWrite, readTypes: healthKitTypesToRead) { (success, error) -> Void in
+            
+            if( completion != nil )
+            {
+                completion(success:success,error:error)
+            }
+        }
+    }
+    
+    
+    func getStepCounter(){
+    
+        
+        let calendar = NSCalendar.currentCalendar()
+        
+        let endDate = NSDate()
+        let startOfToday = calendar.startOfDayForDate(endDate)
+
+        
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(startOfToday, endDate: endDate, options: .None)
+        
+        let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 0, sortDescriptors: nil, resultsHandler: {
+            (query, results, error) in
+            if results == nil {
+                println("There was an error running the query: \(error)")
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                var stepsToday:Double = 0
+                
+                for steps in results as! [HKQuantitySample]
+                {
+                    // add values to dailyAVG
+                    stepsToday += steps.quantity.doubleValueForUnit(HKUnit.countUnit())
+                }
+            
+                self.sensorDataArray += [("Steps today", "\(stepsToday)")]
+            }
+        })
+        
+        if healthKitStore.authorizationStatusForType(HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)) == HKAuthorizationStatus.SharingAuthorized {
+        
+            healthKitStore.executeQuery(query)
         }
     }
 }

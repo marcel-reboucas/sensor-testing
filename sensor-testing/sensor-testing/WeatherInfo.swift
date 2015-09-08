@@ -17,7 +17,6 @@ public class WeatherInfo {
     var temperatureMin : Double
     var temperatureMax : Double
     var pressure : Double
-    var seaLevel : Double
     var humidity : Double
     var windSpeed : Double
     var windDegree : Double
@@ -37,7 +36,6 @@ public class WeatherInfo {
         temperatureMin = main["temp_min"] as! Double
         temperatureMax = main["temp_max"] as! Double
         pressure = main["pressure"] as! Double
-        seaLevel = main["sea_level"] as! Double
         humidity = main["humidity"] as! Double
         
         var wind = data["wind"] as! NSDictionary

@@ -16,6 +16,7 @@
 		1F5F86D91B98D5D00091A204 /* sensor_testingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F86D81B98D5D00091A204 /* sensor_testingTests.swift */; };
 		1F5F86E31B99D9730091A204 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5F86E21B99D9730091A204 /* CoreLocation.framework */; };
 		1FA1359D1B99EF250066E747 /* WeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA1359C1B99EF250066E747 /* WeatherInfo.swift */; };
+		1FA1359F1B9A298D0066E747 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA1359E1B9A298D0066E747 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		1F5F86E21B99D9730091A204 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1FA135981B99E7640066E747 /* sensor-testing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sensor-testing-Bridging-Header.h"; sourceTree = "<group>"; };
 		1FA1359C1B99EF250066E747 /* WeatherInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherInfo.swift; sourceTree = "<group>"; };
+		1FA1359E1B9A298D0066E747 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		1FA135A01B9A298D0066E747 /* sensor-testing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "sensor-testing.entitlements"; sourceTree = "<group>"; };
 		316B0BA9965389A192DCF906 /* libPods-sensor-testing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sensor-testing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0103053717B38AB91871840 /* Pods-sensor-testing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sensor-testing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sensor-testing/Pods-sensor-testing.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FA1359F1B9A298D0066E747 /* HealthKit.framework in Frameworks */,
 				1F5F86E31B99D9730091A204 /* CoreLocation.framework in Frameworks */,
 				0144C85B0F3E3CBF8AEDD118 /* libPods-sensor-testing.a in Frameworks */,
 			);
@@ -79,7 +83,6 @@
 		1F5F86B41B98D5D00091A204 = {
 			isa = PBXGroup;
 			children = (
-				1F5F86E21B99D9730091A204 /* CoreLocation.framework */,
 				1F5F86BF1B98D5D00091A204 /* sensor-testing */,
 				1F5F86D51B98D5D00091A204 /* sensor-testingTests */,
 				1F5F86BE1B98D5D00091A204 /* Products */,
@@ -100,6 +103,7 @@
 		1F5F86BF1B98D5D00091A204 /* sensor-testing */ = {
 			isa = PBXGroup;
 			children = (
+				1FA135A01B9A298D0066E747 /* sensor-testing.entitlements */,
 				1F5F86C21B98D5D00091A204 /* AppDelegate.swift */,
 				1F5F86C41B98D5D00091A204 /* ViewController.swift */,
 				1FA1359C1B99EF250066E747 /* WeatherInfo.swift */,
@@ -140,6 +144,8 @@
 		FC60FA0AFFD68FC779E79A31 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FA1359E1B9A298D0066E747 /* HealthKit.framework */,
+				1F5F86E21B99D9730091A204 /* CoreLocation.framework */,
 				316B0BA9965389A192DCF906 /* libPods-sensor-testing.a */,
 			);
 			name = Frameworks;
@@ -197,6 +203,12 @@
 				TargetAttributes = {
 					1F5F86BC1B98D5D00091A204 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = RHUME8DLWX;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 					1F5F86D11B98D5D00091A204 = {
 						CreatedOnToolsVersion = 6.4;
@@ -414,6 +426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "sensor-testing/sensor-testing.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "sensor-testing/Info.plist";
@@ -432,6 +445,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "sensor-testing/sensor-testing.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "sensor-testing/Info.plist";
