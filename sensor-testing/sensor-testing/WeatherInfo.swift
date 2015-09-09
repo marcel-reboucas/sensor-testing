@@ -12,6 +12,8 @@ public class WeatherInfo {
    
     var cityName : String
     var country : String
+    var sunrise : NSDate
+    var sunset : NSDate
     var weather : String
     var temperatureCurrent : Double
     var temperatureMin : Double
@@ -27,7 +29,9 @@ public class WeatherInfo {
         
         var sys = data["sys"] as! NSDictionary
         country = sys.valueForKey("country") as! String
-    
+        sunrise = sys.valueForKey("sunrise") as! NSDate
+        sunset =  sys.valueForKey("sunset") as! NSDate
+        
         var wea = (data["weather"] as! NSArray).objectAtIndex(0) as! NSDictionary
         weather = wea["main"] as! String
         

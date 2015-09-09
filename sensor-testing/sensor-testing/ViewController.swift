@@ -24,8 +24,11 @@ import HealthKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var citySegmentedControl: UISegmentedControl!
     
     var sensorDataArray = [(String, String)]()
+    var cities = [CityInfo]()
+    var selectedCity = 0
     
     // Accelerometer and Gyro
     let motionManager : CMMotionManager = CMMotionManager()
@@ -74,6 +77,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         }
+        
+        println("\(NSTimeZone.knownTimeZoneNames())")
+        cities.append(CityInfo(name: "Recife", coordinate: CLLocationCoordinate2D(latitude: -8.050329, longitude: -34.912695), timezone: NSTimeZone(name: "America/Recife")!))
+        cities.append(CityInfo(name: "Floripa", coordinate: CLLocationCoordinate2D(latitude: -27.601891, longitude: -48.520922), timezone: NSTimeZone(name: "America/Sao_Paulo")!))
+        cities.append(CityInfo(name: "Tokyo", coordinate: CLLocationCoordinate2D(latitude: -35.694010, longitude: 139.770220), timezone: NSTimeZone(name: "Asia/Tokyo")!))
+        
+        self.citySegmentedControl.setTitle(cities[0].name, forSegmentAtIndex: 0)
+        self.citySegmentedControl.setTitle(cities[1].name, forSegmentAtIndex: 1)
+        self.citySegmentedControl.setTitle(cities[2].name, forSegmentAtIndex: 2)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -96,6 +108,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // Location
         locationManager.stopUpdatingLocation()
+    }
+    
+    @IBAction func segmentedValueChanged(sender: UISegmentedControl) {
+        selectedCity = sender.selectedSegmentIndex
+        updateSensorDataArray()
     }
     
     @IBAction func atualizarAction(sender: AnyObject) {
@@ -125,13 +142,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         sensorDataArray += getLocationData()
         sensorDataArray += getAccelerometerData()
         sensorDataArray += getGyroData()
-        sensorDataArray += getProximity()
-        getTemperatureData()
+        getWeatherData()
         getStepCounter()
         
-        
         tableView.reloadData()
-        
     }
     
 
@@ -201,23 +215,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return gyroData
     }
     
-    func getTemperatureData()
+    func getWeatherData()
     {
-        var temperatureData = [(String, String)]()
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        dateFormatter.timeZone = cities[selectedCity].timezone
         
-        if   (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways)
-        {
-            if (locationManager.location != nil) {
-                
-                weatherApi.currentWeatherByCoordinate(locationManager.location.coordinate, withCallback: { (error, result) -> Void in
+            weatherApi.currentWeatherByCoordinate(cities[selectedCity].coordinate, withCallback: { (error, result) -> Void in
                
                     if result != nil {
+                        
                     var weatherData : WeatherInfo = WeatherInfo(data: result)
                 
                     self.sensorDataArray += [("Current Temperature", "\(weatherData.temperatureCurrent)")]
-                    self.sensorDataArray += [("Max Temperature", "\(weatherData.temperatureMax)")]
-                    self.sensorDataArray += [("Min Temperature", "\(weatherData.temperatureMin)")]
                     self.sensorDataArray += [("Weather", "\(weatherData.weather)")]
                     self.sensorDataArray += [("Pressure", "\(weatherData.pressure)")]
                     self.sensorDataArray += [("Humidity", "\(weatherData.humidity)")]
@@ -225,21 +235,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.sensorDataArray += [("Wind degree", "\(weatherData.windDegree)")]
                     self.sensorDataArray += [("City", "\(weatherData.cityName)")]
                     self.sensorDataArray += [("Country", "\(weatherData.country)")]
-                
+                    self.sensorDataArray += [("Sunrise", "\(dateFormatter.stringFromDate(weatherData.sunrise))")]
+                    self.sensorDataArray += [("Sunset", "\(dateFormatter.stringFromDate(weatherData.sunset))")]
+
+                    let cityHour = NSDate()
+                    self.sensorDataArray += [("Time", dateFormatter.stringFromDate(cityHour))]
+                    
+                        //if cityhour is later than sunrise and before sunset, then it's day
+                        if cityHour.compare(weatherData.sunrise) == NSComparisonResult.OrderedDescending &&
+                        cityHour.compare(weatherData.sunset) == NSComparisonResult.OrderedAscending {
+                            self.sensorDataArray += [("Day/Night", "Day")]
+                        } else {
+                            self.sensorDataArray += [("Day/Night", "Night")]
+                        }
+                    
                     self.tableView.reloadData()
-                    }
-                })
             }
-        }
-    }
-    
-    func getAmbientlight(){
-    
-    }
-    
-    func getProximity()  -> [(String, String)] {
-        println(device.proximityState)
-        return [("Proximity State", "\(device.proximityState)")]
+        })
     }
     
     func authorizeHealthKit(completion: ((success:Bool, error:NSError!) -> Void)!)

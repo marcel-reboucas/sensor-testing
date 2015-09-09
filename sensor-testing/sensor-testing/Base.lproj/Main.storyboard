@@ -41,7 +41,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lgw-nI-iSM">
-                                <rect key="frame" x="0.0" y="80" width="600" height="417"/>
+                                <rect key="frame" x="0.0" y="136" width="600" height="361"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell" textLabel="TEl-VP-YnB" detailTextLabel="OmD-4X-Cfc" style="IBUITableViewCellStyleValue1" id="oll-c8-GY1">
@@ -67,20 +67,35 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QK3-sk-Wi5">
+                                <rect key="frame" x="16" y="73" width="568" height="29"/>
+                                <segments>
+                                    <segment title="City0"/>
+                                    <segment title="City1"/>
+                                    <segment title="City2"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedValueChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="My7-UY-PrN"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lgw-nI-iSM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="0wJ-cA-DrS"/>
+                            <constraint firstItem="QK3-sk-Wi5" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="7Hk-oz-rSy"/>
                             <constraint firstAttribute="centerX" secondItem="DQ4-2A-2mr" secondAttribute="centerX" id="Hgx-zt-csv"/>
+                            <constraint firstItem="lgw-nI-iSM" firstAttribute="top" secondItem="QK3-sk-Wi5" secondAttribute="bottom" constant="35" id="JpF-t0-GHY"/>
                             <constraint firstAttribute="centerX" secondItem="vRs-tN-tHx" secondAttribute="centerX" id="MkT-eE-TW0"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="vRs-tN-tHx" secondAttribute="bottom" constant="46" id="QLQ-bt-f7l"/>
+                            <constraint firstItem="QK3-sk-Wi5" firstAttribute="top" secondItem="DQ4-2A-2mr" secondAttribute="bottom" constant="14" id="XES-Bc-La7"/>
+                            <constraint firstItem="QK3-sk-Wi5" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="cVf-7c-xUq"/>
                             <constraint firstAttribute="trailingMargin" secondItem="lgw-nI-iSM" secondAttribute="trailing" constant="-16" id="dD3-8h-jYa"/>
-                            <constraint firstItem="lgw-nI-iSM" firstAttribute="top" secondItem="DQ4-2A-2mr" secondAttribute="bottom" constant="21" id="oSm-q6-gfd"/>
                             <constraint firstItem="vRs-tN-tHx" firstAttribute="top" secondItem="lgw-nI-iSM" secondAttribute="bottom" constant="27" id="tE3-ah-uDl"/>
                             <constraint firstItem="DQ4-2A-2mr" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="18" id="toP-iM-4jR"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="citySegmentedControl" destination="QK3-sk-Wi5" id="Hlf-hN-IjW"/>
                         <outlet property="tableView" destination="lgw-nI-iSM" id="fCI-a6-pUP"/>
                     </connections>
                 </viewController>

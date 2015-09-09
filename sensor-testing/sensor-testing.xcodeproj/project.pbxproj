@@ -17,6 +17,7 @@
 		1F5F86E31B99D9730091A204 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5F86E21B99D9730091A204 /* CoreLocation.framework */; };
 		1FA1359D1B99EF250066E747 /* WeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA1359C1B99EF250066E747 /* WeatherInfo.swift */; };
 		1FA1359F1B9A298D0066E747 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA1359E1B9A298D0066E747 /* HealthKit.framework */; };
+		1FCC2D2E1B9FA8A600E7E448 /* CityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC2D2D1B9FA8A600E7E448 /* CityInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		1FA1359C1B99EF250066E747 /* WeatherInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherInfo.swift; sourceTree = "<group>"; };
 		1FA1359E1B9A298D0066E747 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		1FA135A01B9A298D0066E747 /* sensor-testing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "sensor-testing.entitlements"; sourceTree = "<group>"; };
+		1FCC2D2D1B9FA8A600E7E448 /* CityInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityInfo.swift; sourceTree = "<group>"; };
 		316B0BA9965389A192DCF906 /* libPods-sensor-testing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sensor-testing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0103053717B38AB91871840 /* Pods-sensor-testing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sensor-testing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sensor-testing/Pods-sensor-testing.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +109,7 @@
 				1F5F86C21B98D5D00091A204 /* AppDelegate.swift */,
 				1F5F86C41B98D5D00091A204 /* ViewController.swift */,
 				1FA1359C1B99EF250066E747 /* WeatherInfo.swift */,
+				1FCC2D2D1B9FA8A600E7E448 /* CityInfo.swift */,
 				1F5F86C61B98D5D00091A204 /* Main.storyboard */,
 				1F5F86C91B98D5D00091A204 /* Images.xcassets */,
 				1F5F86CB1B98D5D00091A204 /* LaunchScreen.xib */,
@@ -295,6 +298,7 @@
 			files = (
 				1F5F86C51B98D5D00091A204 /* ViewController.swift in Sources */,
 				1F5F86C31B98D5D00091A204 /* AppDelegate.swift in Sources */,
+				1FCC2D2E1B9FA8A600E7E448 /* CityInfo.swift in Sources */,
 				1FA1359D1B99EF250066E747 /* WeatherInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
