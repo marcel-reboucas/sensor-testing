@@ -143,6 +143,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         sensorDataArray += getGyroData()
         getWeatherData()
         getStepCounter()
+        getFlightOfStairsCounter()
         
         tableView.reloadData()
     }
@@ -165,8 +166,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
            
             
         }  else {
-            locationData += [("Latitude","Not authorized")]
-            locationData += [("Longitude","Not authorized")]
+            locationData += [("Latitude","Não autorizado")]
+            locationData += [("Longitude","Não autorizado")]
         }
         
         return locationData
@@ -180,13 +181,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         {
             var data = motionManager.accelerometerData
             
-            accelerometerData += [("Accelerometer X", "\(data.acceleration.x)")]
-            accelerometerData += [("Accelerometer Y", "\(data.acceleration.y)")]
-            accelerometerData += [("Accelerometer Z", "\(data.acceleration.z)")]
+            accelerometerData += [("Acelerometro X", "\(data.acceleration.x)")]
+            accelerometerData += [("Acelerometro Y", "\(data.acceleration.y)")]
+            accelerometerData += [("Acelerometro Z", "\(data.acceleration.z)")]
         } else {
-            accelerometerData += [("Accelerometer X", "Not available")]
-            accelerometerData += [("Accelerometer Y", "Not available")]
-            accelerometerData += [("Accelerometer Z", "Not available")]
+            accelerometerData += [("Acelerometro X", "Não autorizado")]
+            accelerometerData += [("Acelerometro Y", "Não autorizado")]
+            accelerometerData += [("Acelerometro Z", "Não autorizado")]
         }
         
         
@@ -205,9 +206,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             gyroData += [("Gyro Y", "\(data.rotationRate.y)")]
             gyroData += [("Gyro Z", "\(data.rotationRate.z)")]
         } else {
-            gyroData += [("Gyro X", "Not available")]
-            gyroData += [("Gyro Y", "Not available")]
-            gyroData += [("Gyro Z", "Not available")]
+            gyroData += [("Gyro X", "Não autorizado")]
+            gyroData += [("Gyro Y", "Não autorizado")]
+            gyroData += [("Gyro Z", "Não autorizado")]
         }
         
         
@@ -226,26 +227,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         
                     var weatherData : WeatherInfo = WeatherInfo(data: result)
                 
-                    self.sensorDataArray += [("Current Temperature", "\(weatherData.temperatureCurrent)")]
-                    self.sensorDataArray += [("Weather", "\(weatherData.weather)")]
-                    self.sensorDataArray += [("Pressure", "\(weatherData.pressure)")]
-                    self.sensorDataArray += [("Humidity", "\(weatherData.humidity)")]
-                    self.sensorDataArray += [("Wind speed", "\(weatherData.windSpeed)")]
-                    self.sensorDataArray += [("Wind degree", "\(weatherData.windDegree)")]
-                    self.sensorDataArray += [("City", "\(weatherData.cityName)")]
-                    self.sensorDataArray += [("Country", "\(weatherData.country)")]
-                    self.sensorDataArray += [("Sunrise", "\(dateFormatter.stringFromDate(weatherData.sunrise))")]
-                    self.sensorDataArray += [("Sunset", "\(dateFormatter.stringFromDate(weatherData.sunset))")]
+                    self.sensorDataArray += [("Temperatura", "\(weatherData.temperatureCurrent)")]
+                    self.sensorDataArray += [("Clima", "\(weatherData.weather)")]
+                    self.sensorDataArray += [("Pressão", "\(weatherData.pressure)")]
+                    self.sensorDataArray += [("Umidade", "\(weatherData.humidity)")]
+                    self.sensorDataArray += [("Velocidade do Vento", "\(weatherData.windSpeed)")]
+                    self.sensorDataArray += [("Bairro", "\(weatherData.cityName)")]
+                    self.sensorDataArray += [("País", "\(weatherData.country)")]
+                    self.sensorDataArray += [("Nascer do sol", "\(dateFormatter.stringFromDate(weatherData.sunrise))")]
+                    self.sensorDataArray += [("Por do Sol", "\(dateFormatter.stringFromDate(weatherData.sunset))")]
 
                     let cityHour = NSDate()
-                    self.sensorDataArray += [("Time", dateFormatter.stringFromDate(cityHour))]
+                    self.sensorDataArray += [("Hora", dateFormatter.stringFromDate(cityHour))]
                     
                         //if cityhour is later than sunrise and before sunset, then it's day
                         if cityHour.compare(weatherData.sunrise) == NSComparisonResult.OrderedDescending &&
                         cityHour.compare(weatherData.sunset) == NSComparisonResult.OrderedAscending {
-                            self.sensorDataArray += [("Day/Night", "Day")]
+                            self.sensorDataArray += [("Dia/Noite", "Dia")]
                         } else {
-                            self.sensorDataArray += [("Day/Night", "Night")]
+                            self.sensorDataArray += [("Dia/Noite", "Noite")]
                         }
                     
                     self.tableView.reloadData()
@@ -257,12 +257,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     {
         // 1. Set the types you want to read from HK Store
         let healthKitTypesToRead = Set([
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount),
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierFlightsClimbed)
             ])
         
         // 2. Set the types you want to write to HK Store
         let healthKitTypesToWrite = Set([
-            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount),
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierFlightsClimbed)
             ])
         
         // 3. If the store is not available (for instance, iPad) return an error and don't go on.
@@ -314,7 +316,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     stepsToday += steps.quantity.doubleValueForUnit(HKUnit.countUnit())
                 }
             
-                self.sensorDataArray += [("Steps today", "\(stepsToday)")]
+                self.sensorDataArray += [("Passos hoje", "\(stepsToday)")]
             }
         })
         
@@ -323,5 +325,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             healthKitStore.executeQuery(query)
         }
     }
+    
+    func getFlightOfStairsCounter(){
+        
+        
+        let calendar = NSCalendar.currentCalendar()
+        
+        let endDate = NSDate()
+        let startOfToday = calendar.startOfDayForDate(endDate)
+        
+        
+        let sampleType = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierFlightsClimbed)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(startOfToday, endDate: endDate, options: .None)
+        
+        let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 0, sortDescriptors: nil, resultsHandler: {
+            (query, results, error) in
+            if results == nil {
+                println("There was an error running the query: \(error)")
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                var stairsToday:Double = 0
+                
+                for stairs in results as! [HKQuantitySample]
+                {
+                    // add values to dailyAVG
+                    stairsToday += stairs.quantity.doubleValueForUnit(HKUnit.countUnit())
+                }
+                
+                self.sensorDataArray += [("Andares de escada", "\(stairsToday)")]
+            }
+        })
+        
+        if healthKitStore.authorizationStatusForType(HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierFlightsClimbed)) == HKAuthorizationStatus.SharingAuthorized {
+            
+            healthKitStore.executeQuery(query)
+        }
+    }
+
 }
 

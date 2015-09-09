@@ -21,7 +21,6 @@ public class WeatherInfo {
     var pressure : Double
     var humidity : Double
     var windSpeed : Double
-    var windDegree : Double
     
     init (data : NSDictionary) {
     
@@ -44,7 +43,6 @@ public class WeatherInfo {
         
         var wind = data["wind"] as! NSDictionary
         windSpeed = wind["speed"] as! Double
-        windDegree = wind["deg"] as! Double
     
     }
 }
