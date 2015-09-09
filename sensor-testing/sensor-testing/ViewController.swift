@@ -78,10 +78,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         
-        println("\(NSTimeZone.knownTimeZoneNames())")
         cities.append(CityInfo(name: "Recife", coordinate: CLLocationCoordinate2D(latitude: -8.050329, longitude: -34.912695), timezone: NSTimeZone(name: "America/Recife")!))
-        cities.append(CityInfo(name: "Floripa", coordinate: CLLocationCoordinate2D(latitude: -27.601891, longitude: -48.520922), timezone: NSTimeZone(name: "America/Sao_Paulo")!))
-        cities.append(CityInfo(name: "Tokyo", coordinate: CLLocationCoordinate2D(latitude: -35.694010, longitude: 139.770220), timezone: NSTimeZone(name: "Asia/Tokyo")!))
+        cities.append(CityInfo(name: "Floripa", coordinate: CLLocationCoordinate2D(latitude: -27.610951, longitude: -48.517540), timezone: NSTimeZone(name: "America/Sao_Paulo")!))
+        cities.append(CityInfo(name: "Tokyo", coordinate: CLLocationCoordinate2D(latitude: 35.694010, longitude: 139.770220), timezone: NSTimeZone(name: "Asia/Tokyo")!))
         
         self.citySegmentedControl.setTitle(cities[0].name, forSegmentAtIndex: 0)
         self.citySegmentedControl.setTitle(cities[1].name, forSegmentAtIndex: 1)
